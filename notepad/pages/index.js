@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ethers } from "ethers";
-import NoteTokenABI from "../../artifacts/contracts/Lock.sol/Lock.json";
+import NoteTokenABI from "../../artifacts/contracts/Honey.sol/NoteToken.json";
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
@@ -87,7 +87,7 @@ const Home = () => {
         if (window.ethereum) {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
-          const contractAddress = "0x4ffE69cd9ACd52961844c297318fe12697972F8f";
+          const contractAddress = "0x3FeF66D2696Be7E1bff5F193FE4e49A26567CcFb"; // Replace with the actual contract address
 
           const noteTokenContract = new ethers.Contract(
             contractAddress,
@@ -103,23 +103,26 @@ const Home = () => {
 
           setAccount(accounts[0]);
 
-          const noteCount = await noteTokenContract.balanceOf(accounts[0]);
-          const notePromises = [];
+          // Fetch the total number of notes from the contract
+          const noteCount = await noteTokenContract.notes.length;
 
+          const notePromises = [];
           for (let i = 0; i < noteCount; i++) {
             notePromises.push(noteTokenContract.getNoteByIndex(i));
           }
 
           const noteResults = await Promise.all(notePromises);
 
-          const notes = noteResults.map((note, index) => ({
-            id: index,
-            text: note.text,
-            price: note.price.toString(),
-            purchased: note.purchased,
-          }));
+          const validNotes = noteResults
+            .map((note, index) => ({
+              id: index,
+              text: note[0],
+              price: note[1].toString(),
+              purchased: note[2],
+            }))
+            .filter((note) => note.text !== ""); // Filter out notes with empty text
 
-          setNotes(notes);
+          setNotes(validNotes);
           setMetamaskConnected(true);
         } else {
           console.log("Metamask not found");
@@ -129,6 +132,7 @@ const Home = () => {
         setError("Failed to initialize" + " " + error.message);
       }
     }
+
     initialize();
   }, []);
 

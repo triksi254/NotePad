@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   const maraTestnetUrl = "https://testapi.mara.xyz/http";
 
   // Our deployed contract address
-  const contractAddress = "0x4ffE69cd9ACd52961844c297318fe12697972F8f";
+  const contractAddress = "0x3FeF66D2696Be7E1bff5F193FE4e49A26567CcFb";
 
   useEffect(() => {
     async function initialize() {
