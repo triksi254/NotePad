@@ -1,0 +1,21 @@
+{
+  "name": "notepad",
+  "version": "0.1.0",
+  "private": "false",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@web3-react/core": "^8.2.0",
+    "eslint": "8.45.0",
+    "eslint-config-next": "13.4.12",
+    "ethers": "5.7.2",
+    "eventemitter3": "^5.0.1",
+    "next": "^13.4.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
